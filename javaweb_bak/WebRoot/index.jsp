@@ -15,16 +15,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<link rel="stylesheet"  type="text/css"  href="javaweb.css"/>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-  
   <body>
-      <form action="LoginServlet" method="post">  
-                用户名：<input type="text" name="username"/><br>  
-                 密码:<input type="password" name="password"/><br>  
-              <input type="submit" />  
-      </form> 
+  <div class="starwars-demo">
+    <img src="//cssanimation.rocks/demo/starwars/images/star.svg" alt="Star" class="star">
+    <img src="//cssanimation.rocks/demo/starwars/images/wars.svg" alt="Wars" class="wars">
+    <h2 class="byline" id="byline">The Force Awakens</h2>
+  </div>
+  
+     <script>
+     var byline = document.getElementById('byline');     // Find the H2
+		bylineText = byline.innerHTML;                                      // Get the content of the H2
+		bylineArr = bylineText.split('');                                   // Split content into array
+		byline.innerHTML = '';                                                      // Empty current content
+		
+		var span;                   // Create variables to create elements
+		var letter;
+		
+		for(i=0;i<bylineArr.length;i++){                                    // Loop for every letter
+		  span = document.createElement("span");                    // Create a <span> element
+		  letter = document.createTextNode(bylineArr[i]);   // Create the letter
+		  if(bylineArr[i] == ' ') {                                             // If the letter is a space...
+		    byline.appendChild(letter);                 // ...Add the space without a span
+		  } else {
+		        span.appendChild(letter);                       // Add the letter to the span
+		    byline.appendChild(span);                   // Add the span to the h2
+		  }
+		}
+     </script>
+     <!-- 4秒之后自动跳转 -->
+     <script> window.setInterval("location='Mainpage.html'",4000); </script> 
+ 
   </body>
 </html>
