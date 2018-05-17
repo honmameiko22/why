@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.javaweb.UserBean;
+import com.bean.UserBean;
 
 @WebServlet(name="LoginServlet", urlPatterns={ "/login" })
 public class LoginServlet extends HttpServlet {
@@ -26,17 +26,33 @@ public class LoginServlet extends HttpServlet {
 
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+		throws ServletException, IOException {
 		UserBean usr=new UserBean(); 
         request.setCharacterEncoding("UTF-8");  
         response.setCharacterEncoding("UTF-8");  
         //向服务器发送请求获取到参数  
-        String username=request.getParameter("username");  
-        String password=request.getParameter("password");  
-        usr.setName(username);
-        int ret=0;
+        String username=request.getParameter("usrname");
+        String password=request.getParameter("usrpw");  
+        System.out.println("name="+username);
 		try {
-			ret=usr.Login(username, password);
+			int ret=usr.Login(username, password);
+			System.out.println("ret="+ret);
+	        response.setHeader("Content-Type", "text/html; charset=UTF-8");  
+	        Writer out=response.getWriter();  
+	        //success
+	        if(ret==1){
+	        	 out.write("curent user:用户名="+username);  
+	        }
+	        //wrong password
+	        else if(ret==0){
+	        	out.write("wrong password");
+	        }
+	        else if(ret==-1)
+	        	out.write("user does not exist");
+	        System.out.println(username+"--"+password);  
+	          
+	        out.flush();  
+	        out.close();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -46,21 +62,7 @@ public class LoginServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        
-        response.setHeader("Content-Type", "text/html; charset=UTF-8");  
-        Writer out=response.getWriter();  
-        //success
-        if(ret==1){
-        	 out.write("curent user:用户名="+username);  
-        }
-        //wrong password
-        else if(ret==0){
-        	out.write("wrong password");
-        }
-        System.out.println(username+"--"+password);  
-          
-        out.flush();  
-        out.close();
+        //设置跳转到mainp
 	}
 
 }

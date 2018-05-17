@@ -1,19 +1,20 @@
-package com.javaweb;
+package com.bean;
 import java.sql.SQLException;
 
-import com.javaweb.DataBase;
+import com.exe.DataBase;
 
 public class UserBean implements java.io.Serializable{
 	private String name=null;
-	private int age=0;
+	private String mail=null;
 	private String password=null;
+	
 	public UserBean(){
 	}
 	public void setName(String name){
 		this.name=name;
 	}
-	public void setAge(int age){
-		this.age=age;
+	public void setMail(String mail){
+		this.mail=mail;
 	}
 	public void setPassword(String password){
 		this.password=password;
@@ -24,13 +25,13 @@ public class UserBean implements java.io.Serializable{
 	public String getName(){
 		return this.name;
     }
-	public int getAge(){
-		return this.age;
+	public String getMail(){
+		return this.mail;
 	}
 	public int Create(UserBean usr) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		int exit=0;
 		DataBase create= new DataBase();
-		create.CreateUsr(usr);
+		exit=create.CreateUsr(usr);
 		return exit;
 	}
 	public int Login (String name, String password) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{

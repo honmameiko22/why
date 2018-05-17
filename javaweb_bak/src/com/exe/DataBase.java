@@ -1,10 +1,12 @@
-package com.javaweb;
+package com.exe;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.bean.UserBean;
 
 public class DataBase {
 	private String driverName = "com.mysql.jdbc.Driver"; //驱动名称
@@ -23,9 +25,9 @@ public class DataBase {
 	}
 	
 	public int CreateUsr(UserBean usr)  {
-        System.out.println("create user...");
+        System.out.println("create user...name="+usr.getName());
         int flag=0;
-		String query_sql="select password from usr where name='"+usr.getName()+"'" ;
+		String query_sql="select * from usr where username='"+usr.getName()+"'" ;
         ResultSet rs=null;
 		try {
 			rs = stmt.executeQuery(query_sql);
@@ -36,8 +38,8 @@ public class DataBase {
 	        System.out.println("flag="+flag);
 	        //不存在该用户，则存入数据库
 	        if(flag==0){
-	       // 	 String insert_sql = "insert into usr values('"+usr+"','"+pw+"')";
-	        	// stmt.execute(insert_sql);  
+	        	 String insert_sql = "insert into usr values( null,'"+usr.getName()+"','"+usr.getMail()+"','"+usr.getPassword()+"')";
+	        	 stmt.execute(insert_sql);  
 	        }
 			
 		} catch (SQLException e) {
@@ -62,7 +64,7 @@ public class DataBase {
 	public int login(String myname, String pw)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         System.out.println("finding user...");
 		
-		String sql = "select password from usr where name='"+myname+"'" ;//拼接进去
+		String sql = "select password from usr where username='"+myname+"'" ;//拼接进去
 		ResultSet rs = stmt.executeQuery(sql);  //查询语句
 		System.out.println("1n");
 		int flag=-1;
