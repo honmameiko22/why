@@ -13,11 +13,68 @@
 <link href="css/bootstrap.css" rel="stylesheet" type='text/css' media="all" />
 <link href="css/style.css" rel="stylesheet" type='text/css' media="all" />
 <!-- /css -->
+
+<script type="text/javascript">
+var xmlhttp;  
+var outMsg;
+var timei;
+function doRequest(){
+	createXMLHtppRequest();  
+	//alert("1");
+	var queryString = "LoginServlet?";
+	queryString = queryString+createQueryString();  
+	xmlhttp.onreadystatechange = handleStateChange;  
+	xmlhttp.open("POST", queryString, true);  
+    xmlhttp.send(null); 
+}
+function createXMLHtppRequest(){
+//判断浏览器是否兼容
+    if(window.ActiveXOject)  
+    {  
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");  
+    }  
+    else if(window.XMLHttpRequest)  
+    {  
+      xmlhttp = new XMLHttpRequest();  
+    }  
+}
+
+function createQueryString()  
+{  
+  var userName = document.getElementById("Uname").value;  
+  var password=document.getElementById("Upassword").value;
+  var queryString= "name="+userName+"&password="+password;  
+ // alert(queryString);
+  return queryString;    
+}  
+
+function handleStateChange()  
+{  
+ if(xmlhttp.readyState==4)  
+ {  
+   if(xmlhttp.status==200) parseResults(); 
+ }  
+} 
+ 
+
+function parseResults()  
+{  
+  var responseDiv = document.getElementById("serverResponse");  
+  if(responseDiv.hasChildNodes())  
+  {   
+    responseDiv.removeChild(responseDiv.childNodes[0]);  
+  }  
+  var responseText = document.createTextNode(xmlhttp.responseText);  
+  responseDiv.appendChild(responseText);  
+}  
+
+</script>
+
 </head>
 <body>
 <h1 class="w3ls">Authentication Signup Form</h1>
 	<div class="content-agileits">
-		<form action="LoginServlet" method="post" data-toggle="validator" role="form">
+		<form action="#" method="post" data-toggle="validator" role="form">
 			<div class="form-group 小贝壳网站模板 w3 w3l">
 				<label for="firstname" class="control-label">Username</label>
 				<input type="text" class="form-control" id="Uname" name="usrname" placeholder="Username" data-error="Enter Your Username" required>
@@ -25,13 +82,15 @@
 			</div>
 			<div class="form-group agileits 小贝壳网站模板 w3">
 				<label for="lastname" class="control-label">Password</label>
-				<input type="text" class="form-control" id="Upassword" name="usrpw" placeholder="Userpassword" data-error="Enter Your Password" required>
+				<input  type="password" class="form-control" id="Upassword" name="usrpw" placeholder="Userpassword" data-error="Enter Your Password" required>
 				<div class="help-block with-errors"></div>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-lg">Submit</button>
+				<input type="button" id="submission" class="btn btn-lg" value="submit" onclick="doRequest();"/> 
 			</div>
 		</form>
+			<h2>Server Response:</h2>  
+			<div id="serverResponse"></div>
     </div>
 <!-- js files -->
 <script src="js/jquery-1.10.2.min.js"></script>

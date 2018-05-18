@@ -28,31 +28,38 @@ public class LoginServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		UserBean usr=new UserBean(); 
-        request.setCharacterEncoding("UTF-8");  
-        response.setCharacterEncoding("UTF-8");  
+    //    request.setCharacterEncoding("UTF-8");  
+      //  response.setCharacterEncoding("UTF-8");  
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter out = response.getWriter();  
         //向服务器发送请求获取到参数  
-        String username=request.getParameter("usrname");
-        String password=request.getParameter("usrpw");  
+        String username=request.getParameter("name");
+        String password=request.getParameter("password");  
         System.out.println("name="+username);
 		try {
 			int ret=usr.Login(username, password);
 			System.out.println("ret="+ret);
-	        response.setHeader("Content-Type", "text/html; charset=UTF-8");  
-	        Writer out=response.getWriter();  
+	       // response.setHeader("Content-Type", "text/html; charset=UTF-8");  
+	      //  Writer out=response.getWriter();  
 	        //success
 	        if(ret==1){
-	        	 out.write("curent user:用户名="+username);  
+		        String responseText = "登陆成功";
+		        out.println(responseText);  
+		        out.close(); 
 	        }
 	        //wrong password
 	        else if(ret==0){
-	        	out.write("wrong password");
+		        String responseText = "密码错误";
+		        out.println(responseText);  
+		        out.close(); 
 	        }
-	        else if(ret==-1)
-	        	out.write("user does not exist");
+	        else if(ret==-1){
+		        String responseText = "用户不存在";
+		        out.println(responseText);  
+		        out.close(); 
+	        }
 	        System.out.println(username+"--"+password);  
 	          
-	        out.flush();  
-	        out.close();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

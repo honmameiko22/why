@@ -13,11 +13,80 @@
 <link href="css/bootstrap.css" rel="stylesheet" type='text/css' media="all" />
 <link href="css/style.css" rel="stylesheet" type='text/css' media="all" />
 <!-- /css -->
+<!-- script -->
+<script type="text/javascript">
+var xmlhttp;  
+var outMsg;
+var timei;
+function doRequest(){
+	createXMLHtppRequest();  
+	var queryString = "SignupServlet?";
+	queryString = queryString+createQueryString();  
+	xmlhttp.onreadystatechange = handleStateChange;  
+	xmlhttp.open("POST", queryString, true);  
+    xmlhttp.send(null); 
+}
+function createXMLHtppRequest(){
+//判断浏览器是否兼容
+    if(window.ActiveXOject)  
+    {  
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");  
+    }  
+    else if(window.XMLHttpRequest)  
+    {  
+      xmlhttp = new XMLHttpRequest();  
+    }  
+}
+
+function createQueryString()  
+{  
+  var userName = document.getElementById("firstname").value;  
+  var mail=document.getElementById("inputEmail").value;
+  var password=document.getElementById("inputPassword").value;
+  var queryString= "name="+userName+"&mail="+mail+"&password="+password;  
+ // alert(queryString);
+  return queryString;    
+}  
+
+function handleStateChange()  
+{  
+ if(xmlhttp.readyState==4)  
+ {  
+   if(xmlhttp.status==200) parseResults(); 
+ }  
+} 
+ 
+ //跳转，未成功
+function fun() {  
+	alert(i);
+	if (i == 0) {  
+	//跳转
+    	window.location.href = "Mainpage.html";  
+        clearInterval(intervalid);  
+    }  
+    //document.getElementById("mes").innerHTML = i;  
+    i--;   
+} 
+
+function parseResults()  
+{  
+  var responseDiv = document.getElementById("serverResponse");  
+  if(responseDiv.hasChildNodes())  
+  {   
+    responseDiv.removeChild(responseDiv.childNodes[0]);  
+  }  
+  var responseText = document.createTextNode(xmlhttp.responseText);  
+  responseDiv.appendChild(responseText);  
+   timei =5; 
+   var intervalid = setInterval("fun()", 1000); 
+}  
+</script>
+
 </head>
 <body>
 <h1 class="w3ls">Authentication Signup Form</h1>
 	<div class="content-agileits">
-		<form action="SignupServlet" method="post" data-toggle="validator" role="form">
+		<form  data-toggle="validator" role="form" action="#">
 			<div class="form-group 小贝壳网站模板 w3 w3l">
 				<label for="firstname" class="control-label">First Name</label>
 				<input type="text" class="form-control" id="firstname" name="name" placeholder="First Name" data-error="Enter Your First Name" required>
@@ -43,9 +112,11 @@
 			</div>
 		
 				<div class="form-group">
-					<button type="submit" onclick="SignUp.html" class="btn btn-lg">Submit</button>
+					<input type="button" id="submission" class="btn btn-lg" value="submit" onclick="doRequest();"/> 
 				</div>
 		</form>
+						<h2>Server Response:</h2>  
+				<div id="serverResponse"></div> 
     </div>
 <p class="copyright-w3ls">© 2017 Authentication Signup Form. All Rights Reserved | Design by <a href="http://www.smallseashell.com/" target="_blank">小贝壳网站模板</a></p>
 <!-- js files -->

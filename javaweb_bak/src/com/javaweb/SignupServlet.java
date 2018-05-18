@@ -27,9 +27,13 @@ public class SignupServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("in");
+        
 		UserBean usr=new UserBean(); 
-        request.setCharacterEncoding("UTF-8");  
-        response.setCharacterEncoding("UTF-8");  
+       // request.setCharacterEncoding("UTF-8");  
+       // response.setCharacterEncoding("UTF-8");  
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter out = response.getWriter();  
         //向服务器发送请求获取到参数  
         String username=request.getParameter("name");  
         String email=request.getParameter("mail");  
@@ -41,19 +45,19 @@ public class SignupServlet extends HttpServlet {
 		try {
 			int ret=usr.Create(usr);
 			System.out.println("ret="+ret);
-	        response.setHeader("Content-Type", "text/html; charset=UTF-8");  
-	        Writer out=response.getWriter();  
 	        //success
 	        if(ret==1){
-	        	 out.write("user already exist\n");  
+	        	String responseText = "用户已存在";
+	            out.println(responseText);  
+	            out.close(); 
 	        }
 	        //exist
 	        else if(ret==0){
-	        	out.write("curent user:用户名="+username);
+	        	String responseText = "注册成功！";
+	            out.println(responseText);  
+	            out.close(); 
 	        }
 	        System.out.println(username+"--"+password);  
-	        out.flush();  
-	        out.close();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
