@@ -5,8 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.bean.UserBean;
+import javax.sql.rowset.CachedRowSet;
+
+import com.bean.*;
 
 public class DataBase {
 	private String driverName = "com.mysql.jdbc.Driver"; //驱动名称
@@ -64,18 +68,41 @@ public class DataBase {
 	public int login(String myname, String pw)throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         System.out.println("finding user...");
 		
-		String sql = "select password from usr where username='"+myname+"'" ;//拼接进去
+		String sql = "select password, userid from usr where username='"+myname+"'" ;//拼接进去
 		ResultSet rs = stmt.executeQuery(sql);  //查询语句
 		System.out.println("1n");
 		int flag=-1;
 		 while(rs.next()){
 			 flag=0;
-			  if(rs.getString("password").equals(pw)) flag=1;
+			  if(rs.getString("password").equals(pw)) flag=Integer.parseInt(rs.getString("userid"));
 		 }
 	
 		conn.close(); 
 		stmt.close();
 		rs.close();
 		return flag;
+	}
+	//查看文本形式的输出
+	public List<ItemBean> Load(int i) throws SQLException{
+		 System.out.println("finding text...");
+		 String sql=null;
+		 if(i==1)
+			sql = "select * from Text where iscoder='Y'";
+		 else
+			sql = "select * from Text where iscoder='N'";
+		 ResultSet rs=stmt.executeQuery(sql);
+		 List<ItemBean> ret=new ArrayList<ItemBean>();
+		 while(rs.next()){
+	 		ItemBean cur=new ItemBean();
+			cur.setTextid(Integer.parseInt(rs.getString("Textid")));
+			cur.setOwnerid(Integer.parseInt(rs.getString("userid")));
+			cur.setContent(rs.getString("value"));
+			cur.setOwenerName(rs.getString("username"));
+			cur.setStar(Integer.parseInt(rs.getString("star")));
+			ret.add(cur);
+		}
+		 conn.close();
+		 stmt.close();
+		 return ret;
 	}
 }

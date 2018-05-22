@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.bean.UserBean;
 
@@ -42,8 +43,11 @@ public class LoginServlet extends HttpServlet {
 	       // response.setHeader("Content-Type", "text/html; charset=UTF-8");  
 	      //  Writer out=response.getWriter();  
 	        //success
-	        if(ret==1){
+	        if(ret>=1){
 		        String responseText = "登陆成功";
+		        HttpSession session=request.getSession();
+		        session.setAttribute("username", username);
+		        session.setAttribute("userid", ret);
 		        out.println(responseText);  
 		        out.close(); 
 	        }

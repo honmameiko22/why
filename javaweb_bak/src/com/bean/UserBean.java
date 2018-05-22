@@ -1,4 +1,5 @@
 package com.bean;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.exe.DataBase;

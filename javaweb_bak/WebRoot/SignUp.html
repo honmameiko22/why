@@ -28,14 +28,15 @@ function doRequest(){
 }
 function createXMLHtppRequest(){
 //判断浏览器是否兼容
-    if(window.ActiveXOject)  
-    {  
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");  
-    }  
-    else if(window.XMLHttpRequest)  
-    {  
-      xmlhttp = new XMLHttpRequest();  
-    }  
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  	xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
 }
 
 function createQueryString()  
