@@ -16,16 +16,17 @@
 </head>
 <body>
 <div class="content-w3ls">
-	<form action="#" method="post" class="form-agileits">
+	<form action="UploadDownloadFileServlet" method="post" class="form-agileits"  enctype="multipart/form-data">
 		<div class="form-w3ls">
-			<h2>我是程序员</h2>
+			<h2>我最程序员</h2>
 			
 			<div class="clear"></div>
 		</div>
 		<textarea type="message" name="message" value="YOUR MESSAGE" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'YOUR MESSAGE';}">As a Programmer...</textarea>
 		<div align="center">
 		<label>
-		添加图片&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="file" name="userfile" class="addimg" />
+		添加图片&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		<input type="file" name="fileName" class="addimg" size="50" placeholder="Upload Your Image" required/><br>
 		</label>
 		</div>
 		<br>
